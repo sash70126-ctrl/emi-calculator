@@ -15,82 +15,98 @@
 
   <!-- SEO -->
   <title>EMI Calculator India – Home, Car & Personal Loan EMI Calculator</title>
-  <meta name="description" content="Free EMI Calculator India. Calculate Home Loan, Car Loan and Personal Loan EMI with full amortization schedule. Accurate, fast and easy." />
+  <meta name="description" content="Free EMI Calculator India. Calculate Home Loan, Car Loan and Personal Loan EMI with full amortization schedule." />
   <meta name="robots" content="index, follow" />
-  <meta name="geo.region" content="IN" />
-  <meta name="geo.country" content="India" />
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
-    body {
+    body{
       font-family: Arial, sans-serif;
-      background: #f5f7fa;
-      margin: 0;
-      padding: 20px;
+      background:#f4f6f9;
+      padding:20px;
+      margin:0;
     }
-    .container {
-      max-width: 700px;
-      background: #fff;
-      margin: auto;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    .container{
+      max-width:1000px;
+      margin:auto;
+      background:#fff;
+      padding:20px;
+      border-radius:8px;
+      box-shadow:0 0 10px rgba(0,0,0,0.1);
     }
-    h1 { text-align: center; }
-    label { display: block; margin-top: 15px; }
-    input {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      font-size: 16px;
+    .toggle{text-align:right;margin-bottom:10px;}
+    h1{text-align:center;margin-bottom:5px;}
+    .subtitle{text-align:center;color:#555;}
+
+    label{display:block;margin-top:15px;}
+    input{
+      width:100%;
+      padding:10px;
+      margin-top:5px;
+      font-size:16px;
     }
-    button {
-      width: 100%;
-      padding: 12px;
-      margin-top: 20px;
-      font-size: 16px;
-      background: #1a73e8;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
+    button{
+      margin-top:20px;
+      width:100%;
+      padding:12px;
+      font-size:16px;
+      background:#1a73e8;
+      color:#fff;
+      border:none;
+      border-radius:5px;
+      cursor:pointer;
     }
-    .result {
-      background: #eef2f7;
-      padding: 15px;
-      margin-top: 20px;
-      border-radius: 6px;
+
+    .result{
+      margin-top:20px;
+      background:#eef2f7;
+      padding:15px;
+      border-radius:6px;
     }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-      font-size: 14px;
+
+    .layout{
+      display:flex;
+      gap:20px;
+      margin-top:20px;
     }
-    th, td {
-      border: 1px solid #ccc;
-      padding: 8px;
-      text-align: right;
+    .left{flex:2;}
+    .right{
+      flex:1;
+      background:#fafafa;
+      padding:15px;
+      border-radius:8px;
     }
-    th { background: #f0f0f0; }
-    .toggle {
-      text-align: center;
-      margin-bottom: 15px;
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      margin-top:20px;
+      font-size:14px;
     }
-    .toggle button {
-      width: auto;
-      padding: 6px 15px;
-      font-size: 14px;
+    th,td{
+      border:1px solid #ccc;
+      padding:8px;
+      text-align:right;
     }
-    .seo {
-      margin-top: 40px;
-      font-size: 14px;
-      line-height: 1.6;
+    th{background:#f0f0f0;}
+
+    .seo{
+      margin-top:40px;
+      font-size:14px;
+      line-height:1.6;
     }
-    footer {
-      text-align: center;
-      margin-top: 30px;
-      font-size: 13px;
-      color: #666;
+
+    footer{
+      margin-top:30px;
+      text-align:center;
+      font-size:13px;
+      color:#666;
+    }
+
+    @media(max-width:768px){
+      .layout{flex-direction:column;}
     }
   </style>
 </head>
@@ -99,115 +115,127 @@
 <div class="container">
 
   <div class="toggle">
-    <button onclick="toggleLanguage()">हिंदी / English</button>
+    <button onclick="toggleLang()">हिंदी / English</button>
   </div>
 
   <h1 id="title">EMI Calculator India</h1>
-  <p id="subtitle">Calculate your monthly EMI for Home Loan, Car Loan or Personal Loan easily.</p>
+  <p class="subtitle" id="subtitle">
+    Calculate your monthly EMI for Home Loan, Car Loan or Personal Loan easily.
+  </p>
 
-  <label id="loanLabel">Loan Amount (₹)</label>
-  <input type="number" id="amount" placeholder="e.g. 500000" />
+  <label id="l1">Loan Amount (₹)</label>
+  <input id="amount" type="number" placeholder="e.g. 500000">
 
-  <label id="rateLabel">Interest Rate (% per year)</label>
-  <input type="number" id="rate" placeholder="e.g. 8.5" />
+  <label id="l2">Interest Rate (% per year)</label>
+  <input id="rate" type="number" placeholder="e.g. 8.5">
 
-  <label id="tenureLabel">Loan Tenure (Years)</label>
-  <input type="number" id="tenure" placeholder="e.g. 20" />
+  <label id="l3">Loan Tenure (Years)</label>
+  <input id="tenure" type="number" placeholder="e.g. 20">
 
-  <button onclick="calculateEMI()" id="calcBtn">Calculate EMI</button>
+  <button id="calcBtn" onclick="calculateEMI()">Calculate EMI</button>
 
-  <div class="result" id="result" style="display:none;">
-    <p id="monthlyEmi"></p>
-    <p id="totalInterest"></p>
-    <p id="totalPayment"></p>
+  <div class="layout">
+
+    <div class="left">
+      <div class="result" id="result" style="display:none;">
+        <p id="emiText"></p>
+        <p id="interestText"></p>
+        <p id="paymentText"></p>
+      </div>
+
+      <table id="table" style="display:none;">
+        <thead>
+          <tr>
+            <th>Month</th>
+            <th>EMI</th>
+            <th>Principal</th>
+            <th>Interest</th>
+            <th>Balance</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+
+    <div class="right">
+      <h3 id="graphTitle">Loan Breakdown</h3>
+      <canvas id="emiChart"></canvas>
+    </div>
+
   </div>
 
-  <table id="table" style="display:none;">
-    <thead>
-      <tr>
-        <th>Month</th>
-        <th>EMI</th>
-        <th>Principal</th>
-        <th>Interest</th>
-        <th>Balance</th>
-      </tr>
-    </thead>
-    <tbody id="tableBody"></tbody>
-  </table>
-
-  <!-- SEO CONTENT -->
-  <div class="seo" id="seoText">
+  <div class="seo">
     <h2>What is EMI?</h2>
-    <p>EMI (Equated Monthly Installment) is the fixed payment you make every month to repay a loan. It includes both principal and interest.</p>
+    <p>EMI (Equated Monthly Installment) is the fixed monthly payment made to repay a loan including principal and interest.</p>
 
     <h2>How EMI is calculated in India?</h2>
-    <p>EMI depends on loan amount, interest rate and loan tenure. Banks in India follow standard EMI calculation formula.</p>
+    <p>EMI depends on loan amount, interest rate and tenure. This calculator follows standard Indian banking formula.</p>
 
-    <h2>Types of EMI Calculators</h2>
-    <ul>
-      <li>Home Loan EMI Calculator</li>
-      <li>Car Loan EMI Calculator</li>
-      <li>Personal Loan EMI Calculator</li>
-    </ul>
-
-    <h2>Frequently Asked Questions (FAQ)</h2>
-    <p><strong>Is this EMI calculator free?</strong> Yes, it is 100% free.</p>
-    <p><strong>Is this calculator accurate?</strong> Yes, it uses standard EMI formula used by Indian banks.</p>
+    <h2>FAQ</h2>
+    <p><strong>Is this EMI calculator free?</strong> Yes.</p>
+    <p><strong>Is it suitable for Indian banks?</strong> Yes, it follows standard calculations.</p>
   </div>
 
-  <footer>© 2026 EMI Calculator India. Free Financial Tool.</footer>
+  <footer>© 2026 EMI Calculator India</footer>
 </div>
 
 <script>
-let isHindi = false;
+let isHindi=false, chart;
 
-function toggleLanguage() {
-  isHindi = !isHindi;
-  document.getElementById("title").innerText = isHindi ? "ईएमआई कैलकुलेटर इंडिया" : "EMI Calculator India";
-  document.getElementById("subtitle").innerText = isHindi
-    ? "होम लोन, कार लोन और पर्सनल लोन की मासिक ईएमआई निकालें।"
-    : "Calculate your monthly EMI for Home Loan, Car Loan or Personal Loan easily.";
-  document.getElementById("loanLabel").innerText = isHindi ? "लोन राशि (₹)" : "Loan Amount (₹)";
-  document.getElementById("rateLabel").innerText = isHindi ? "ब्याज दर (% प्रति वर्ष)" : "Interest Rate (% per year)";
-  document.getElementById("tenureLabel").innerText = isHindi ? "लोन अवधि (वर्ष)" : "Loan Tenure (Years)";
-  document.getElementById("calcBtn").innerText = isHindi ? "ईएमआई निकालें" : "Calculate EMI";
+function toggleLang(){
+  isHindi=!isHindi;
+  title.innerText=isHindi?"ईएमआई कैलकुलेटर इंडिया":"EMI Calculator India";
+  subtitle.innerText=isHindi?
+    "होम, कार और पर्सनल लोन की ईएमआई निकालें।":
+    "Calculate your monthly EMI for Home Loan, Car Loan or Personal Loan easily.";
+  l1.innerText=isHindi?"लोन राशि (₹)":"Loan Amount (₹)";
+  l2.innerText=isHindi?"ब्याज दर (% प्रति वर्ष)":"Interest Rate (% per year)";
+  l3.innerText=isHindi?"लोन अवधि (वर्ष)":"Loan Tenure (Years)";
+  calcBtn.innerText=isHindi?"ईएमआई निकालें":"Calculate EMI";
+  graphTitle.innerText=isHindi?"ऋण विवरण":"Loan Breakdown";
 }
 
-function calculateEMI() {
-  let P = parseFloat(amount.value);
-  let r = parseFloat(rate.value) / 12 / 100;
-  let n = parseFloat(tenure.value) * 12;
+function calculateEMI(){
+  let P=+amount.value, r=+rate.value/12/100, n=+tenure.value*12;
+  let emi=P*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);
+  let total=emi*n, interest=total-P;
 
-  let emi = P * r * Math.pow(1+r,n) / (Math.pow(1+r,n)-1);
-  let totalPayment = emi * n;
-  let totalInterest = totalPayment - P;
+  result.style.display="block";
+  table.style.display="table";
 
-  result.style.display = "block";
-  monthlyEmi.innerText = `Monthly EMI: ₹${emi.toFixed(2)}`;
-  totalInterest.innerText = `Total Interest: ₹${totalInterest.toFixed(2)}`;
-  totalPayment.innerText = `Total Payment: ₹${totalPayment.toFixed(2)}`;
+  emiText.innerText=`Monthly EMI: ₹${emi.toFixed(2)}`;
+  interestText.innerText=`Total Interest: ₹${interest.toFixed(2)}`;
+  paymentText.innerText=`Total Payment: ₹${total.toFixed(2)}`;
 
-  table.style.display = "table";
-  tableBody.innerHTML = "";
-
-  let balance = P;
-  for (let i=1;i<=n;i++){
-    let interest = balance * r;
-    let principal = emi - interest;
-    balance -= principal;
-
-    tableBody.innerHTML += `
-      <tr>
-        <td>${i}</td>
-        <td>${emi.toFixed(2)}</td>
-        <td>${principal.toFixed(2)}</td>
-        <td>${interest.toFixed(2)}</td>
-        <td>${balance > 0 ? balance.toFixed(2) : "0.00"}</td>
-      </tr>`;
+  tbody.innerHTML="";
+  let bal=P;
+  for(let i=1;i<=n;i++){
+    let int=bal*r, princ=emi-int;
+    bal-=princ;
+    tbody.innerHTML+=`<tr>
+      <td>${i}</td><td>${emi.toFixed(2)}</td>
+      <td>${princ.toFixed(2)}</td>
+      <td>${int.toFixed(2)}</td>
+      <td>${bal>0?bal.toFixed(2):"0.00"}</td></tr>`;
   }
+
+  renderChart(P,interest);
+}
+
+function renderChart(p,i){
+  if(chart) chart.destroy();
+  chart=new Chart(emiChart,{
+    type:'pie',
+    data:{
+      labels:['Principal','Interest'],
+      datasets:[{data:[p,i],backgroundColor:['#4CAF50','#FF9800']}]
+    },
+    options:{plugins:{legend:{position:'bottom'}}}
+  });
 }
 </script>
 
 </body>
 </html>
+
 
