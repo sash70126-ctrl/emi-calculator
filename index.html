@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Google Analytics (GA4) -->
+  <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-DG91V2795Q"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -13,58 +13,133 @@
     gtag('config', 'G-DG91V2795Q');
   </script>
 
-  <!-- Primary SEO -->
+  <!-- SEO -->
   <title>EMI Calculator India – Home, Car & Personal Loan EMI Calculator</title>
-  <meta name="description" content="Free EMI Calculator for India. Calculate Home Loan, Car Loan and Personal Loan EMI instantly with interest rate and tenure. Simple and accurate EMI calculation." />
-
-  <!-- SEO Best Practices -->
+  <meta name="description" content="Free EMI Calculator for India. Calculate Home Loan, Car Loan and Personal Loan EMI with full amortization schedule." />
   <meta name="robots" content="index, follow" />
   <meta name="geo.region" content="IN" />
   <meta name="geo.country" content="India" />
   <meta name="language" content="en-IN" />
 
-  <!-- Open Graph (Social Sharing) -->
-  <meta property="og:title" content="EMI Calculator India – Calculate Loan EMI Easily" />
-  <meta property="og:description" content="Calculate EMI for home loan, car loan and personal loan in India. Free, fast and accurate EMI calculator." />
-  <meta property="og:type" content="website" />
-
-  <!-- CSS -->
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-
   <div class="container">
-    <h1>EMI Calculator India</h1>
-    <p>Calculate your monthly EMI for Home Loan, Car Loan or Personal Loan easily.</p>
 
-    <div class="calculator-box">
-
-      <label for="loanAmount">Loan Amount (₹)</label>
-      <input type="number" id="loanAmount" placeholder="e.g. 500000" />
-
-      <label for="interestRate">Interest Rate (% per year)</label>
-      <input type="number" step="0.01" id="interestRate" placeholder="e.g. 8.5" />
-
-      <label for="loanTenure">Loan Tenure (Years)</label>
-      <input type="number" id="loanTenure" placeholder="e.g. 20" />
-
-      <button onclick="calculateEMI()">Calculate EMI</button>
-
-      <div class="result">
-        <p><strong>Monthly EMI:</strong> <span id="emiResult">₹0</span></p>
-        <p><strong>Total Interest:</strong> <span id="totalInterest">₹0</span></p>
-        <p><strong>Total Payment:</strong> <span id="totalPayment">₹0</span></p>
-      </div>
-
+    <!-- Language Toggle -->
+    <div style="text-align:right;">
+      <button id="langToggle" onclick="toggleLanguage()">हिंदी</button>
     </div>
 
-    <footer>
-      <p>© 2026 EMI Calculator India. Free Financial Tool.</p>
+    <h1 id="title">EMI Calculator India</h1>
+    <p id="subtitle">
+      Calculate your monthly EMI for Home Loan, Car Loan or Personal Loan easily.
+    </p>
+
+    <label id="loanAmountLabel">Loan Amount (₹)</label>
+    <input type="number" id="loanAmount" placeholder="e.g. 500000" />
+
+    <label id="interestRateLabel">Interest Rate (% per year)</label>
+    <input type="number" id="interestRate" placeholder="e.g. 8.5" />
+
+    <label id="loanTenureLabel">Loan Tenure (Years)</label>
+    <input type="number" id="loanTenure" placeholder="e.g. 20" />
+
+    <button id="calculateBtn" onclick="calculateEMI()">Calculate EMI</button>
+
+    <!-- Results -->
+    <div class="result">
+      <p><strong id="emiText">Monthly EMI:</strong> ₹<span id="emiResult">0</span></p>
+      <p><strong id="interestText">Total Interest:</strong> ₹<span id="totalInterest">0</span></p>
+      <p><strong id="paymentText">Total Payment:</strong> ₹<span id="totalPayment">0</span></p>
+    </div>
+
+    <!-- Amortization Table -->
+    <div id="amortization-section" style="display:none;">
+      <h2 id="tableTitle">Loan Amortization Schedule</h2>
+      <table id="amortization-table">
+        <thead>
+          <tr>
+            <th id="thMonth">Month</th>
+            <th id="thEmi">EMI (₹)</th>
+            <th id="thPrincipal">Principal (₹)</th>
+            <th id="thInterest">Interest (₹)</th>
+            <th id="thBalance">Balance (₹)</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <footer id="footerText">
+      © 2026 EMI Calculator India. Free Financial Tool.
     </footer>
   </div>
 
-  <!-- JS -->
   <script src="script.js"></script>
+
+  <!-- Language Toggle Script -->
+  <script>
+    let currentLang = "en";
+
+    function toggleLanguage() {
+      if (currentLang === "en") {
+        // Switch to Hindi
+        document.getElementById("langToggle").innerText = "English";
+        document.getElementById("title").innerText = "ईएमआई कैलकुलेटर इंडिया";
+        document.getElementById("subtitle").innerText =
+          "होम लोन, कार लोन और पर्सनल लोन की मासिक EMI आसानी से निकालें।";
+
+        document.getElementById("loanAmountLabel").innerText = "ऋण राशि (₹)";
+        document.getElementById("interestRateLabel").innerText = "ब्याज दर (% प्रति वर्ष)";
+        document.getElementById("loanTenureLabel").innerText = "ऋण अवधि (वर्ष)";
+        document.getElementById("calculateBtn").innerText = "EMI निकालें";
+
+        document.getElementById("emiText").innerText = "मासिक EMI:";
+        document.getElementById("interestText").innerText = "कुल ब्याज:";
+        document.getElementById("paymentText").innerText = "कुल भुगतान:";
+
+        document.getElementById("tableTitle").innerText = "ऋण भुगतान अनुसूची";
+        document.getElementById("thMonth").innerText = "महीना";
+        document.getElementById("thEmi").innerText = "EMI (₹)";
+        document.getElementById("thPrincipal").innerText = "मूलधन (₹)";
+        document.getElementById("thInterest").innerText = "ब्याज (₹)";
+        document.getElementById("thBalance").innerText = "शेष राशि (₹)";
+
+        document.getElementById("footerText").innerText =
+          "© 2026 ईएमआई कैलकुलेटर इंडिया | निःशुल्क वित्तीय टूल";
+
+        currentLang = "hi";
+      } else {
+        // Switch to English
+        document.getElementById("langToggle").innerText = "हिंदी";
+        document.getElementById("title").innerText = "EMI Calculator India";
+        document.getElementById("subtitle").innerText =
+          "Calculate your monthly EMI for Home Loan, Car Loan or Personal Loan easily.";
+
+        document.getElementById("loanAmountLabel").innerText = "Loan Amount (₹)";
+        document.getElementById("interestRateLabel").innerText = "Interest Rate (% per year)";
+        document.getElementById("loanTenureLabel").innerText = "Loan Tenure (Years)";
+        document.getElementById("calculateBtn").innerText = "Calculate EMI";
+
+        document.getElementById("emiText").innerText = "Monthly EMI:";
+        document.getElementById("interestText").innerText = "Total Interest:";
+        document.getElementById("paymentText").innerText = "Total Payment:";
+
+        document.getElementById("tableTitle").innerText = "Loan Amortization Schedule";
+        document.getElementById("thMonth").innerText = "Month";
+        document.getElementById("thEmi").innerText = "EMI (₹)";
+        document.getElementById("thPrincipal").innerText = "Principal (₹)";
+        document.getElementById("thInterest").innerText = "Interest (₹)";
+        document.getElementById("thBalance").innerText = "Balance (₹)";
+
+        document.getElementById("footerText").innerText =
+          "© 2026 EMI Calculator India. Free Financial Tool.";
+
+        currentLang = "en";
+      }
+    }
+  </script>
 </body>
 </html>
