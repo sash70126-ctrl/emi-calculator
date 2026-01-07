@@ -4,144 +4,67 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Primary SEO -->
-  <title>EMI Calculator India: Calculate Home, Car & Personal Loan EMI</title>
-  <meta name="description" content="Sabse aasaan EMI calculator India ke liye. Home loan, car loan aur personal loan ki monthly EMI, total interest aur payment calculate karein. 100% free tool." />
+  <!-- Google Analytics (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-DG91V2795Q"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-DG91V2795Q');
+  </script>
 
-  <!-- India Targeting -->
+  <!-- Primary SEO -->
+  <title>EMI Calculator India – Home, Car & Personal Loan EMI Calculator</title>
+  <meta name="description" content="Free EMI Calculator for India. Calculate Home Loan, Car Loan and Personal Loan EMI instantly with interest rate and tenure. Simple and accurate EMI calculation." />
+
+  <!-- SEO Best Practices -->
+  <meta name="robots" content="index, follow" />
   <meta name="geo.region" content="IN" />
   <meta name="geo.country" content="India" />
   <meta name="language" content="en-IN" />
 
-  <!-- SEO Best Practice -->
-  <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="https://sweet-trifle-eb9f0e.netlify.app/" />
-
-  <!-- Open Graph (WhatsApp / Facebook) -->
-  <meta property="og:title" content="EMI Calculator India – Home, Car & Personal Loan" />
-  <meta property="og:description" content="Free EMI calculator to calculate monthly EMI, total interest and loan breakup instantly. Simple & mobile-friendly." />
+  <!-- Open Graph (Social Sharing) -->
+  <meta property="og:title" content="EMI Calculator India – Calculate Loan EMI Easily" />
+  <meta property="og:description" content="Calculate EMI for home loan, car loan and personal loan in India. Free, fast and accurate EMI calculator." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://sweet-trifle-eb9f0e.netlify.app/" />
-  <meta property="og:image" content="https://sweet-trifle-eb9f0e.netlify.app/og-image.png" />
 
-  <!-- Styles -->
+  <!-- CSS -->
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
 
-<div class="container">
-  <h1>Simple EMI Calculator India</h1>
-  <p class="subtitle">
-    Loan ki monthly kist, total interest aur total payment easily calculate karein.
-  </p>
+  <div class="container">
+    <h1>EMI Calculator India</h1>
+    <p>Calculate your monthly EMI for Home Loan, Car Loan or Personal Loan easily.</p>
 
-  <!-- Calculator -->
-  <div class="calculator">
-    <label>Loan Amount (₹)</label>
-    <input type="number" id="loanAmount" value="200000" />
+    <div class="calculator-box">
 
-    <label>Interest Rate (% per year)</label>
-    <input type="number" id="interestRate" value="12" step="0.1" />
+      <label for="loanAmount">Loan Amount (₹)</label>
+      <input type="number" id="loanAmount" placeholder="e.g. 500000" />
 
-    <label>Loan Tenure (Years)</label>
-    <input type="number" id="tenure" value="3" />
+      <label for="interestRate">Interest Rate (% per year)</label>
+      <input type="number" step="0.01" id="interestRate" placeholder="e.g. 8.5" />
 
-    <button onclick="calculateEMI()">Calculate EMI</button>
-  </div>
+      <label for="loanTenure">Loan Tenure (Years)</label>
+      <input type="number" id="loanTenure" placeholder="e.g. 20" />
 
-  <!-- Result -->
-  <div class="result">
-    <p><strong>Monthly EMI:</strong> ₹<span id="emi">0</span></p>
-    <p><strong>Total Interest:</strong> ₹<span id="totalInterest">0</span></p>
-    <p><strong>Total Payment:</strong> ₹<span id="totalPayment">0</span></p>
-  </div>
+      <button onclick="calculateEMI()">Calculate EMI</button>
 
-  <!-- Amortization Table -->
-  <div class="amortization">
-    <h2>Loan Amortization Schedule (Month-wise Breakup)</h2>
-    <p>
-      Neeche table mein dikhaya gaya hai ki har mahine EMI ka kitna hissa
-      interest mein jaata hai aur kitna principal mein.
-    </p>
+      <div class="result">
+        <p><strong>Monthly EMI:</strong> <span id="emiResult">₹0</span></p>
+        <p><strong>Total Interest:</strong> <span id="totalInterest">₹0</span></p>
+        <p><strong>Total Payment:</strong> <span id="totalPayment">₹0</span></p>
+      </div>
 
-    <div class="table-wrapper">
-      <table id="amortizationTable">
-        <thead>
-          <tr>
-            <th>Month</th>
-            <th>EMI (₹)</th>
-            <th>Interest (₹)</th>
-            <th>Principal (₹)</th>
-            <th>Balance (₹)</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
     </div>
+
+    <footer>
+      <p>© 2026 EMI Calculator India. Free Financial Tool.</p>
+    </footer>
   </div>
 
-  <!-- SEO CONTENT -->
-  <div class="seo-content">
-
-    <h2>How to Use This EMI Calculator?</h2>
-    <ol>
-      <li>Loan amount enter karein (₹).</li>
-      <li>Interest rate (% per year) daalein.</li>
-      <li>Loan tenure (years) select karein.</li>
-      <li>EMI, total interest aur payment turant niche dikhega.</li>
-    </ol>
-
-    <h2>EMI Calculator – Loan ki Kist Kaise Calculate Hoti Hai?</h2>
-    <p>
-      EMI (Equated Monthly Installment) ka matlab hota hai loan ki ek fix monthly kist
-      jo aap bank ya finance company ko har mahine dete hain.
-      EMI mein principal aur interest dono shamil hote hain.
-    </p>
-
-    <h2>Interest Kaise Lagta Hai?</h2>
-    <p>
-      Bank interest yearly rate par charge karta hai, lekin EMI calculation
-      monthly basis par hoti hai. Shuru ke mahino mein interest zyada hota hai
-      aur dheere-dheere principal ka hissa badhta hai.
-    </p>
-
-    <h2>EMI Calculation Formula</h2>
-    <p class="formula">
-      EMI = P × r × (1+r)<sup>n</sup> / ((1+r)<sup>n</sup> − 1)
-    </p>
-
-    <h2>Frequently Asked Questions</h2>
-
-    <p><strong>Kya ye EMI calculator free hai?</strong><br/>
-      Haan, ye 100% free EMI calculator hai.</p>
-
-    <p><strong>Loan tenure badhane se EMI par kya asar padta hai?</strong><br/>
-      Tenure badhne se EMI kam hoti hai, lekin total interest zyada ho jata hai.</p>
-
-    <p><strong>Kya main loan prepay kar sakta hoon?</strong><br/>
-      Haan, lekin kuch banks prepayment charges le sakte hain.</p>
-
-  </div>
-</div>
-
-<!-- Schema Markup -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "EMI Calculator India",
-  "applicationCategory": "FinanceApplication",
-  "operatingSystem": "Web",
-  "description": "Free EMI calculator to calculate loan EMI, total interest and amortization schedule for home, car and personal loans.",
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "INR"
-  }
-}
-</script>
-
-<script src="script.js"></script>
+  <!-- JS -->
+  <script src="script.js"></script>
 </body>
 </html>
