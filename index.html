@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Google Analytics -->
+  <!-- Google Analytics GA4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-DG91V2795Q"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -14,8 +14,8 @@
   </script>
 
   <!-- SEO -->
-  <title>EMI Calculator India – Home, Car & Personal Loan EMI Calculator</title>
-  <meta name="description" content="Free EMI Calculator India. Calculate Home Loan, Car Loan and Personal Loan EMI with full amortization schedule." />
+  <title>Home Loan EMI Calculator India (RBI Formula)</title>
+  <meta name="description" content="Free Home Loan EMI Calculator India. Calculate EMI for Home, Car & Personal Loan using RBI standard formula. No login, instant results." />
   <meta name="robots" content="index, follow" />
 
   <!-- Chart.js -->
@@ -118,26 +118,26 @@
     <button onclick="toggleLang()">हिंदी / English</button>
   </div>
 
-  <h1 id="title">EMI Calculator India</h1>
+  <h1 id="title">Home Loan EMI Calculator India</h1>
   <p class="subtitle" id="subtitle">
-    Calculate your monthly EMI for Home Loan, Car Loan or Personal Loan easily.
+    Free RBI-standard EMI calculator for Indian banks. No login. Instant results.
   </p>
 
   <label id="l1">Loan Amount (₹)</label>
-  <input id="amount" type="number" placeholder="e.g. 500000">
+  <input id="amount" type="number" value="500000">
 
   <label id="l2">Interest Rate (% per year)</label>
-  <input id="rate" type="number" placeholder="e.g. 8.5">
+  <input id="rate" type="number" value="8.5">
 
   <label id="l3">Loan Tenure (Years)</label>
-  <input id="tenure" type="number" placeholder="e.g. 20">
+  <input id="tenure" type="number" value="20">
 
   <button id="calcBtn" onclick="calculateEMI()">Calculate EMI</button>
 
   <div class="layout">
 
     <div class="left">
-      <div class="result" id="result" style="display:none;">
+      <div class="result" id="result" style="display:none;" aria-live="polite">
         <p id="emiText"></p>
         <p id="interestText"></p>
         <p id="paymentText"></p>
@@ -169,11 +169,11 @@
     <p>EMI (Equated Monthly Installment) is the fixed monthly payment made to repay a loan including principal and interest.</p>
 
     <h2>How EMI is calculated in India?</h2>
-    <p>EMI depends on loan amount, interest rate and tenure. This calculator follows standard Indian banking formula.</p>
+    <p>This EMI calculator follows the RBI-recommended standard banking formula used by Indian banks.</p>
 
     <h2>FAQ</h2>
-    <p><strong>Is this EMI calculator free?</strong> Yes.</p>
-    <p><strong>Is it suitable for Indian banks?</strong> Yes, it follows standard calculations.</p>
+    <p><strong>Is this EMI calculator free?</strong> Yes, it is 100% free.</p>
+    <p><strong>Is it suitable for Indian banks?</strong> Yes, it follows Indian banking standards.</p>
   </div>
 
   <footer>© 2026 EMI Calculator India</footer>
@@ -184,16 +184,30 @@ let isHindi=false, chart;
 
 function toggleLang(){
   isHindi=!isHindi;
-  title.innerText=isHindi?"ईएमआई कैलकुलेटर इंडिया":"EMI Calculator India";
+  title.innerText=isHindi?"होम लोन ईएमआई कैलकुलेटर इंडिया":"Home Loan EMI Calculator India";
   subtitle.innerText=isHindi?
-    "होम, कार और पर्सनल लोन की ईएमआई निकालें।":
-    "Calculate your monthly EMI for Home Loan, Car Loan or Personal Loan easily.";
+    "भारतीय बैंकों के लिए आरबीआई मानक ईएमआई कैलकुलेटर।":
+    "Free RBI-standard EMI calculator for Indian banks.";
   l1.innerText=isHindi?"लोन राशि (₹)":"Loan Amount (₹)";
   l2.innerText=isHindi?"ब्याज दर (% प्रति वर्ष)":"Interest Rate (% per year)";
   l3.innerText=isHindi?"लोन अवधि (वर्ष)":"Loan Tenure (Years)";
   calcBtn.innerText=isHindi?"ईएमआई निकालें":"Calculate EMI";
   graphTitle.innerText=isHindi?"ऋण विवरण":"Loan Breakdown";
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+
+  document.getElementById("calcBtn").addEventListener("click", function () {
+    gtag("event", "emi_calculated");
+  });
+
+  ["amount","rate","tenure"].forEach(id=>{
+    document.getElementById(id).addEventListener("change",()=>{
+      gtag("event","emi_input_changed",{input:id});
+    });
+  });
+
+});
 
 function calculateEMI(){
   let P=+amount.value, r=+rate.value/12/100, n=+tenure.value*12;
@@ -219,6 +233,10 @@ function calculateEMI(){
       <td>${bal>0?bal.toFixed(2):"0.00"}</td></tr>`;
   }
 
+  gtag("event","emi_result_shown");
+
+  document.getElementById("result").scrollIntoView({behavior:"smooth"});
+
   renderChart(P,interest);
 }
 
@@ -237,5 +255,6 @@ function renderChart(p,i){
 
 </body>
 </html>
+
 
 
