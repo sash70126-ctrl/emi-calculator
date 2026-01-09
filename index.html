@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- GA4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-DG91V2795Q"></script>
@@ -13,24 +13,35 @@
     gtag('config', 'G-DG91V2795Q');
   </script>
 
+  <!-- SEO -->
   <title>Home Loan EMI Calculator India (RBI Formula)</title>
-  <meta name="description" content="Free EMI Calculator India. Compare banks, prepayment savings & interest using RBI formula.">
+  <meta name="description" content="Free Home Loan EMI Calculator India using RBI formula. Compare interest rates, download amortization schedule PDF and save on home loan interest." />
+  <meta name="robots" content="index, follow" />
 
+  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+  <!-- jsPDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
   <style>
-    body{font-family:Arial;background:#f4f6f9;margin:0;padding:20px}
-    .container{max-width:1000px;margin:auto;background:#fff;padding:20px;border-radius:8px}
-    label{display:block;margin-top:15px}
+    body{font-family:Arial,sans-serif;background:#f4f6f9;margin:0;padding:20px}
+    .container{max-width:1100px;margin:auto;background:#fff;padding:20px;border-radius:8px;box-shadow:0 0 10px rgba(0,0,0,0.1)}
+    h1{text-align:center;margin-bottom:5px}
+    .subtitle{text-align:center;color:#555;margin-bottom:20px}
+    label{display:block;margin-top:15px;font-weight:bold}
     input,button{width:100%;padding:10px;margin-top:5px;font-size:16px}
     button{background:#1a73e8;color:#fff;border:none;border-radius:5px;cursor:pointer}
-    .result,.box{background:#eef2f7;padding:15px;border-radius:6px;margin-top:20px}
     .layout{display:flex;gap:20px;margin-top:20px}
     .left{flex:2}
     .right{flex:1;background:#fafafa;padding:15px;border-radius:8px}
-    table{width:100%;border-collapse:collapse;margin-top:20px}
+    .result,.box{background:#eef2f7;padding:15px;border-radius:6px;margin-top:15px}
+    .highlight{font-size:20px;font-weight:bold;color:#1a73e8}
+    table{width:100%;border-collapse:collapse;margin-top:20px;font-size:14px}
     th,td{border:1px solid #ccc;padding:8px;text-align:right}
     th{background:#f0f0f0}
+    .seo{margin-top:40px;font-size:14px;line-height:1.7}
+    footer{text-align:center;margin-top:30px;color:#666;font-size:13px}
     @media(max-width:768px){.layout{flex-direction:column}}
   </style>
 </head>
@@ -39,12 +50,13 @@
 <div class="container">
 
 <h1>Home Loan EMI Calculator India</h1>
+<p class="subtitle">RBI Formula Based • Compare Rates • Download PDF</p>
 
 <label>Loan Amount (₹)</label>
-<input id="amount" type="number" value="500000">
+<input id="amount" type="number" value="4000000">
 
 <label>Interest Rate (% per year)</label>
-<input id="rate" type="number" value="8.5">
+<input id="rate" type="number" value="8">
 
 <label>Loan Tenure (Years)</label>
 <input id="tenure" type="number" value="20">
@@ -52,35 +64,41 @@
 <button onclick="calculateEMI()">Calculate EMI</button>
 
 <div class="layout">
+
 <div class="left">
 
-<div class="result" id="result" style="display:none">
-  <p id="emiText"></p>
+<div id="result" class="result" style="display:none">
+  <p class="highlight" id="emiText"></p>
   <p id="interestText"></p>
   <p id="paymentText"></p>
+
+  <!-- PDF BUTTON -->
+  <button onclick="downloadPDF()">Download Amortization PDF</button>
 </div>
 
-<!-- 🔁 COMPARISON -->
+<!-- COMPARISON -->
 <div class="box" id="compareBox" style="display:none">
-  <h3>Compare with another bank</h3>
-  <label>Other bank interest rate (%)</label>
-  <input id="rateB" type="number" placeholder="e.g. 8.1">
-  <button onclick="compareEMI()">Compare</button>
-  <div id="compareResult"></div>
+  <h3>Compare with another interest rate</h3>
+  <label>Other interest rate (%)</label>
+  <input id="otherRate" type="number" value="9">
+  <button onclick="compareRate()">Compare</button>
+  <p class="highlight" id="compareResult"></p>
 </div>
 
-<!-- 💥 PREPAY -->
-<div class="box">
+<!-- PREPAYMENT -->
+<div class="box" id="prepayBox" style="display:none">
   <label>
-    <input type="checkbox" id="prepayToggle" onchange="togglePrepay()">
+    <input type="checkbox" id="extraCheck">
     What if I pay ₹2000 extra every month?
   </label>
-  <div id="prepayResult"></div>
+  <p class="highlight" id="prepayResult"></p>
 </div>
 
 <table id="table" style="display:none">
 <thead>
-<tr><th>Month</th><th>EMI</th><th>Principal</th><th>Interest</th><th>Balance</th></tr>
+<tr>
+  <th>Month</th><th>EMI</th><th>Principal</th><th>Interest</th><th>Balance</th>
+</tr>
 </thead>
 <tbody id="tbody"></tbody>
 </table>
@@ -91,69 +109,118 @@
 <h3>Loan Breakdown</h3>
 <canvas id="emiChart"></canvas>
 </div>
+
 </div>
 
+<div class="seo">
+<h2>How to use this Home Loan EMI Calculator?</h2>
+<ol>
+<li>Enter loan amount, interest rate and tenure.</li>
+<li>Click Calculate EMI.</li>
+<li>Compare rates and check savings.</li>
+<li>Download PDF for future reference.</li>
+</ol>
+
+<h2>EMI Formula (RBI Standard)</h2>
+<p>EMI = P × r × (1+r)<sup>n</sup> / ((1+r)<sup>n</sup> − 1)</p>
+
+<h2>Frequently Asked Questions</h2>
+<p><strong>40 lakh home loan EMI at 8%?</strong><br>Approx ₹33,458 for 20 years.</p>
+<p><strong>Does prepayment save money?</strong><br>Yes, even small extra payments can save lakhs.</p>
+<p><strong>Which tenure is best?</strong><br>Shorter tenure saves interest, longer tenure lowers EMI.</p>
+</div>
+
+<footer>© 2026 Home Loan EMI Calculator India</footer>
 </div>
 
 <script>
-let chart;
+let chart, EMI, TOTAL, INTEREST;
 
 function calculateEMI(){
-  let P=+amount.value,r=+rate.value/12/100,n=+tenure.value*12;
-  let emi=P*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);
-  let total=emi*n,interest=total-P;
+  const P=+amount.value;
+  const r=+rate.value/12/100;
+  const n=+tenure.value*12;
+
+  EMI=P*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);
+  TOTAL=EMI*n;
+  INTEREST=TOTAL-P;
+
+  emiText.innerText=`Monthly EMI: ₹${EMI.toFixed(0)}`;
+  interestText.innerText=`Total Interest: ₹${INTEREST.toFixed(0)}`;
+  paymentText.innerText=`Total Payment: ₹${TOTAL.toFixed(0)}`;
 
   result.style.display="block";
   compareBox.style.display="block";
+  prepayBox.style.display="block";
   table.style.display="table";
-
-  emiText.innerText=`Monthly EMI: ₹${emi.toFixed(0)}`;
-  interestText.innerText=`Total Interest: ₹${interest.toFixed(0)}`;
-  paymentText.innerText=`Total Payment: ₹${total.toFixed(0)}`;
 
   tbody.innerHTML="";
   let bal=P;
   for(let i=1;i<=n;i++){
-    let int=bal*r,pr=emi-int;bal-=pr;
-    tbody.innerHTML+=`<tr><td>${i}</td><td>${emi.toFixed(0)}</td><td>${pr.toFixed(0)}</td><td>${int.toFixed(0)}</td><td>${Math.max(0,bal).toFixed(0)}</td></tr>`;
+    let int=bal*r, princ=EMI-int;
+    bal-=princ;
+    tbody.innerHTML+=`<tr>
+      <td>${i}</td>
+      <td>${EMI.toFixed(0)}</td>
+      <td>${princ.toFixed(0)}</td>
+      <td>${int.toFixed(0)}</td>
+      <td>${bal>0?bal.toFixed(0):0}</td>
+    </tr>`;
   }
 
-  renderChart(P,interest);
-  gtag("event","emi_calculated");
-}
-
-function compareEMI(){
-  let P=+amount.value,rA=+rate.value/12/100,rB=+rateB.value/12/100,n=+tenure.value*12;
-  if(!rB) return;
-  let emiA=P*rA*Math.pow(1+rA,n)/(Math.pow(1+rA,n)-1);
-  let emiB=P*rB*Math.pow(1+rB,n)/(Math.pow(1+rB,n)-1);
-  let save=Math.round((emiA-emiB)*n);
-  compareResult.innerHTML=`<b>You save ₹${save}</b><br><small>Same loan, lower rate.</small>`;
-  gtag("event","compare_used");
-}
-
-function togglePrepay(){
-  if(prepayToggle.checked){
-    let extra=2000;
-    let P=+amount.value,r=+rate.value/12/100,n=+tenure.value*12;
-    let emi=P*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);
-    let saved=Math.round(extra*n*0.9);
-    prepayResult.innerHTML=`<b>Interest saved ≈ ₹${saved}</b>`;
-    gtag("event","prepay_checked");
-  }else prepayResult.innerHTML="";
-}
-
-function renderChart(p,i){
-  if(chart)chart.destroy();
+  if(chart) chart.destroy();
   chart=new Chart(emiChart,{
-    type:"pie",
-    data:{labels:["Principal","Interest"],datasets:[{data:[p,i],backgroundColor:["#4CAF50","#FF9800"]}]}
+    type:'pie',
+    data:{
+      labels:['Principal','Interest'],
+      datasets:[{data:[P,INTEREST],backgroundColor:['#4CAF50','#FF9800']}]
+    }
   });
+
+  gtag('event','emi_calculated');
+}
+
+function compareRate(){
+  const r2=+otherRate.value/12/100;
+  const n=+tenure.value*12;
+  const emi2=amount.value*r2*Math.pow(1+r2,n)/(Math.pow(1+r2,n)-1);
+  const total2=emi2*n;
+  const save=total2-TOTAL;
+  compareResult.innerText=`You save ₹${save.toFixed(0)}`;
+  gtag('event','compare_clicked');
+}
+
+extraCheck.addEventListener("change",()=>{
+  if(extraCheck.checked){
+    prepayResult.innerText="Loan can end ~2 years earlier and save significant interest.";
+    gtag('event','prepayment_checked');
+  } else {
+    prepayResult.innerText="";
+  }
+});
+
+function downloadPDF(){
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  doc.text("Home Loan EMI Calculation", 14, 15);
+  doc.text(`Loan Amount: ₹${amount.value}`, 14, 25);
+  doc.text(`Interest Rate: ${rate.value}%`, 14, 32);
+  doc.text(`Tenure: ${tenure.value} years`, 14, 39);
+
+  doc.text(`Monthly EMI: ₹${EMI.toFixed(0)}`, 14, 50);
+  doc.text(`Total Interest: ₹${INTEREST.toFixed(0)}`, 14, 57);
+  doc.text(`Total Payment: ₹${TOTAL.toFixed(0)}`, 14, 64);
+
+  doc.save("emi-calculation.pdf");
+
+  gtag('event','pdf_downloaded');
 }
 </script>
 
 </body>
 </html>
+
 
 
 
