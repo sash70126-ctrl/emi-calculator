@@ -2,33 +2,56 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Home Loan EMI Calculator India</title>
+<meta name="description" content="Free Home Loan EMI Calculator for India. Calculate EMI, total interest, repayment insights and make better loan decisions." />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-body{font-family:Arial,sans-serif;background:#f3f6fb;margin:0;padding:20px}
-.container{max-width:1100px;margin:auto;background:#fff;padding:20px;border-radius:10px}
+body{font-family:Arial,sans-serif;background:#f3f6f9;margin:0;padding:20px}
+.container{max-width:900px;margin:auto;background:#fff;padding:20px;border-radius:10px}
 h1{text-align:center}
-.subtitle{text-align:center;color:#666}
+.subtitle{text-align:center;color:#666;margin-bottom:20px}
 
-.inputs label{font-weight:bold;margin-top:10px;display:block}
+label{font-weight:bold;margin-top:12px;display:block}
 input,button{width:100%;padding:10px;margin-top:6px;font-size:16px}
-
 button{background:#1a73e8;color:#fff;border:none;border-radius:6px;cursor:pointer}
+
+.hero{display:flex;gap:15px;margin-top:20px;flex-wrap:wrap}
+.card{flex:1;background:#f8fafc;padding:15px;border-radius:8px;text-align:center}
+.card .value{font-size:28px;font-weight:bold;margin-top:6px}
+
 .section{margin-top:30px;background:#f8fafc;padding:20px;border-radius:10px}
-.hero{display:flex;gap:15px;flex-wrap:wrap}
-.card{flex:1;background:#eef3ff;padding:15px;border-radius:8px;text-align:center}
-.card .value{font-size:26px;font-weight:bold;margin-top:8px}
 
-.highlight{font-size:20px;font-weight:bold;color:#0f9d58}
+.highlight{font-size:18px;font-weight:bold;color:#0f9d58}
 
-.actions button{background:#0f9d58}
-#paywall{display:none;text-align:center}
-#paywall button{background:#0f9d58;font-size:18px}
+.paybox{
+  margin-top:25px;
+  padding:20px;
+  border:2px dashed #0f9d58;
+  border-radius:10px;
+  text-align:center;
+}
 
-footer{text-align:center;margin-top:40px;color:#777;font-size:13px}
+.unlock{
+  background:#0f9d58;
+  margin-top:12px;
+}
+
+.summary{
+  margin-top:30px;
+  padding:20px;
+  background:#eef7ff;
+  border-radius:10px;
+  font-size:15px;
+}
+
+footer{text-align:center;margin-top:30px;color:#777;font-size:13px}
+
+@media(max-width:768px){
+.hero{flex-direction:column}
+}
 </style>
 </head>
 
@@ -38,108 +61,138 @@ footer{text-align:center;margin-top:40px;color:#777;font-size:13px}
 <h1>Home Loan EMI Calculator India</h1>
 <p class="subtitle">RBI Formula • Smart Insights • Inflation Impact</p>
 
-<div class="inputs">
-  <label>Loan Amount (₹)</label>
-  <input id="amount" type="number" value="4000000" />
+<!-- INPUTS -->
+<label>Loan Amount (₹)</label>
+<input id="amount" type="number" value="4000000">
 
-  <label>Interest Rate (% per year)</label>
-  <input id="rate" type="number" value="8" />
+<label>Interest Rate (% per year)</label>
+<input id="rate" type="number" value="8">
 
-  <label>Loan Tenure (Years)</label>
-  <input id="tenure" type="number" value="20" />
+<label>Loan Tenure (Years)</label>
+<input id="tenure" type="number" value="20">
 
-  <button onclick="calculateEMI()">Calculate EMI</button>
-</div>
+<button onclick="calculate()">Calculate EMI</button>
 
 <!-- HERO -->
 <div class="hero" id="hero" style="display:none">
   <div class="card">
-    <h4>Monthly EMI</h4>
-    <div class="value" id="emiValue"></div>
+    <div>Monthly EMI</div>
+    <div class="value" id="emi"></div>
   </div>
   <div class="card">
-    <h4>Total Interest</h4>
-    <div class="value" id="interestValue"></div>
+    <div>Total Interest</div>
+    <div class="value" id="interest"></div>
   </div>
   <div class="card">
-    <h4>Total Payment</h4>
-    <div class="value" id="totalValue"></div>
+    <div>Total Payment</div>
+    <div class="value" id="total"></div>
   </div>
 </div>
 
 <!-- CHART -->
 <div class="section" id="chartSection" style="display:none">
   <h3>Principal vs Interest</h3>
-  <canvas id="emiChart"></canvas>
+  <canvas id="pie"></canvas>
 </div>
 
 <!-- INSIGHTS -->
 <div class="section" id="insightSection" style="display:none">
-  <h3>🧠 Smart Loan Insight</h3>
-  <p id="pizzaInsight"></p>
-  <p class="highlight" id="inflationInsight"></p>
-</div>
-
-<!-- PAY CTA -->
-<div class="section actions" id="actionSection" style="display:none">
-  <button onclick="openPaywall()">Download Detailed Loan Report (PDF)</button>
+  <h3>💡 Smart Loan Insight</h3>
+  <p id="pizza"></p>
+  <p class="highlight" id="inflation"></p>
 </div>
 
 <!-- PAYWALL -->
-<div class="section" id="paywall">
+<div class="paybox" id="paybox" style="display:none">
   <h3>📄 Detailed Loan Decision Report</h3>
   <p>
-    ✔ Full amortization schedule<br>
-    ✔ Lifetime interest breakup<br>
-    ✔ Smart prepayment guidance<br>
-    ✔ Decision-ready PDF
+    EMI dekhna easy hai,<br>
+    lekin loan ka real cost samajhna important hota hai.
+  </p>
+  <p>
+    ✔ Poora loan ka month-by-month breakup<br>
+    ✔ Kitna interest actually jaa raha hai<br>
+    ✔ Kab aur kitna extra pay karna best rahega<br>
+    ✔ Ek clear plan, jisse galat decision se bach sako
   </p>
 
   <h2 id="priceText"></h2>
 
-  <a id="payBtn" target="_blank">
-    <button>Unlock PDF</button>
-  </a>
+  <button class="unlock" onclick="goToPayment()">Unlock Full Loan Report</button>
 
-  <p style="color:#666;font-size:13px">
-    One-time payment • Saves lakhs in wrong decisions
+  <p style="font-size:13px;color:#666;margin-top:8px">
+    One-time payment • No subscription
   </p>
 </div>
 
-<footer>© 2026 Home Loan EMI Calculator India</footer>
+<!-- FINAL SUMMARY -->
+<div class="summary">
+  <strong>🧩 Final Summary (simple)</strong>
+  <ul>
+    <li><strong>SEO (English)</strong> → traffic aayega</li>
+    <li><strong>Hinglish copy</strong> → user convert hoga</li>
+    <li><strong>₹49 / ₹99 / ₹149</strong> → fully justified</li>
+    <li>Tum calculator nahi, <strong>decision clarity</strong> bech rahe ho</li>
+  </ul>
+  <p class="highlight">
+    Calculator free hai.  
+    Galti mehngi hoti hai.  
+    Clarity sirf ₹49 se start hoti hai.
+  </p>
+</div>
+
+<footer>
+This home loan EMI calculator helps you calculate monthly EMI,
+total interest payable, and repayment insights for Indian home loans.
+</footer>
 
 </div>
 
 <script>
-let chart, EMI, TOTAL, INTEREST;
+let EMI, INTEREST, TOTAL, chart;
+let paymentLink = "";
+let payAmount = 49;
 
-function calculateEMI(){
+function calculate(){
   const P = +amount.value;
-  const r = +rate.value / 12 / 100;
-  const n = +tenure.value * 12;
+  const r = +rate.value/12/100;
+  const n = +tenure.value*12;
 
-  EMI = P * r * Math.pow(1+r,n) / (Math.pow(1+r,n)-1);
-  TOTAL = EMI * n;
-  INTEREST = TOTAL - P;
+  EMI = P*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);
+  TOTAL = EMI*n;
+  INTEREST = TOTAL-P;
+
+  emi.innerText = "₹" + EMI.toFixed(0);
+  interest.innerText = "₹" + INTEREST.toFixed(0);
+  total.innerText = "₹" + TOTAL.toFixed(0);
 
   hero.style.display =
   chartSection.style.display =
   insightSection.style.display =
-  actionSection.style.display = "block";
+  paybox.style.display = "block";
 
-  emiValue.innerText = "₹" + EMI.toFixed(0);
-  interestValue.innerText = "₹" + INTEREST.toFixed(0);
-  totalValue.innerText = "₹" + TOTAL.toFixed(0);
+  if(P <= 2500000){
+    payAmount = 49;
+    paymentLink = "https://imjo.in/49LINK";
+  }else if(P <= 7500000){
+    payAmount = 99;
+    paymentLink = "https://imjo.in/99LINK";
+  }else{
+    payAmount = 149;
+    paymentLink = "https://imjo.in/149LINK";
+  }
 
-  pizzaInsight.innerText =
-    "If you pay just ₹500 extra every month, you can finish your loan ~2 years earlier and save lakhs in interest.";
+  priceText.innerText = "Unlock for ₹" + payAmount;
 
-  const futureValue = (EMI / Math.pow(1.06,10)).toFixed(0);
-  inflationInsight.innerText =
-    `Today's EMI of ₹${EMI.toFixed(0)} may feel like ~₹${futureValue} after 10 years due to inflation.`;
+  pizza.innerText =
+    "Sirf ₹500 extra EMI dene se loan 1–2 saal pehle khatam ho sakta hai aur interest me lakhs save ho sakte hain.";
+
+  const future = (EMI/Math.pow(1.06,10)).toFixed(0);
+  inflation.innerText =
+    `Aaj ki EMI ₹${EMI.toFixed(0)} future me inflation ke saath ~₹${future} jaisi feel ho sakti hai.`;
 
   if(chart) chart.destroy();
-  chart = new Chart(emiChart,{
+  chart = new Chart(pie,{
     type:"pie",
     data:{
       labels:["Principal","Interest"],
@@ -151,24 +204,10 @@ function calculateEMI(){
   });
 }
 
-function openPaywall(){
-  const P = +amount.value;
-  let price = 99;
-  let link = "https://imjo.in/YOUR_99_LINK";
-
-  if(P > 2500000){
-    price = 149;
-    link = "https://imjo.in/YOUR_149_LINK";
-  }
-
-  priceText.innerText = `Unlock for ₹${price}`;
-  payBtn.href = link;
-  paywall.style.display = "block";
+function goToPayment(){
+  window.open(paymentLink,"_blank");
 }
 </script>
 
 </body>
 </html>
-
-
-
