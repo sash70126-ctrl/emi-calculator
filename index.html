@@ -4,30 +4,22 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- ✅ SEO TITLE -->
-  <title>
-    Home Loan EMI Calculator India | EMI, Interest & Loan Decision Report
-  </title>
+  <!-- SEO -->
+  <title>Home Loan EMI Calculator India | Real Loan Cost & Decision Report</title>
 
-  <!-- ✅ SEO DESCRIPTION -->
   <meta name="description" content="
-  Free Home Loan EMI Calculator India using RBI formula.
+  Free Home Loan EMI Calculator India.
   Calculate EMI, total interest, inflation impact
-  and unlock a detailed loan decision PDF report.
+  and unlock a loan decision report based on your loan size.
   ">
 
-  <!-- ✅ SEO KEYWORDS -->
   <meta name="keywords" content="
   home loan emi calculator,
   emi calculator india,
-  housing loan emi,
-  loan interest calculator,
-  home loan pdf report,
-  emi breakup india
+  housing loan interest,
+  home loan decision report,
+  loan cost calculator india
   ">
-
-  <!-- GA (optional) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXX"></script>
 
   <style>
     body{
@@ -116,10 +108,9 @@
 <body>
 <div class="container">
 
-  <!-- ✅ SEO H1 -->
   <h1>Home Loan EMI Calculator India</h1>
   <p class="subtitle">
-    RBI Formula • EMI Breakdown • Smart Loan Decisions
+    EMI dikhta simple hai. Loan hota nahi.
   </p>
 
   <!-- INPUTS -->
@@ -154,24 +145,30 @@
   <div class="section" id="insight" style="display:none">
     <h3>🧠 Smart Loan Insight</h3>
     <p>
-      EMI dekhna easy hai,  
-      lekin loan ka real cost samajhna important hota hai.
+      Zyadatar log EMI dekh kar loan le lete hain.  
+      Smart log interest + time ka real cost samajhte hain.
     </p>
     <p class="highlight" id="inflationText"></p>
   </div>
 
   <!-- CTA -->
   <div class="cta" onclick="showPricing()" id="downloadBtn" style="display:none">
-    Download Detailed Loan Report (PDF)
+    See My Full Loan Reality
   </div>
 
   <!-- PRICING -->
   <div class="pricing" id="pricingBox" style="display:none">
-    <h3>📄 Detailed Loan Decision Report</h3>
+    <h3>📄 Loan Decision Report (PDF)</h3>
+
+    <p style="font-size:14px;margin-bottom:10px">
+      Loan amount ke hisaab se clarity price automatically adjust hoti hai.  
+      Bada loan = zyada risk = deeper analysis.
+    </p>
+
     <ul style="text-align:left">
-      <li>✔ Full amortization schedule (PDF)</li>
-      <li>✔ Lifetime interest breakup</li>
-      <li>✔ Smart prepayment guidance</li>
+      <li>✔ Complete amortization schedule</li>
+      <li>✔ Total interest & time cost explained</li>
+      <li>✔ Prepayment & mistake insights</li>
       <li>✔ Decision-ready clarity</li>
     </ul>
 
@@ -186,7 +183,7 @@
     <p class="highlight">
       Calculator free hai.  
       Galti mehngi hoti hai.  
-      Clarity sirf ₹49 se start hoti hai.
+      Clarity loan size ke hisaab se hoti hai.
     </p>
   </div>
 
@@ -226,11 +223,11 @@ function showPricing(){
   pricingBox.style.display="block";
 
   if(loanAmount < 2000000){
-    priceText.innerText="Unlock for ₹49";
+    priceText.innerText="Unlock Full Report — ₹49";
   }else if(loanAmount < 5000000){
-    priceText.innerText="Unlock for ₹99";
+    priceText.innerText="Unlock Full Report — ₹99";
   }else{
-    priceText.innerText="Unlock for ₹149";
+    priceText.innerText="Unlock Full Report — ₹149";
   }
 }
 </script>
